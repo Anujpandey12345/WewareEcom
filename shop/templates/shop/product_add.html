@@ -1,0 +1,218 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+<style>
+  .add-product-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .product-form {
+    background: var(--bg-main);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px var(--shadow);
+    border: 1px solid var(--shadow-light);
+    margin-bottom: 2rem;
+  }
+
+  .product-form p {
+    margin-bottom: 1.5rem;
+  }
+
+  .product-form label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .product-form input[type="text"],
+  .product-form input[type="number"],
+  .product-form input[type="file"],
+  .product-form textarea,
+  .product-form select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--shadow-light);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: all 0.3s ease;
+  }
+
+  .product-form input:focus,
+  .product-form textarea:focus,
+  .product-form select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+
+  [data-theme="dark"] .product-form input:focus,
+  [data-theme="dark"] .product-form textarea:focus,
+  [data-theme="dark"] .product-form select:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  }
+
+  .product-form textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  .product-form input[type="file"] {
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+
+  .btn-success {
+    background: var(--accent);
+    color: var(--text-secondary);
+    padding: 1rem 2rem;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow);
+  }
+
+  .btn-success:active {
+    transform: translateY(0);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+
+  .back-link:hover {
+    background: var(--accent);
+    color: var(--text-secondary);
+    transform: translateX(-5px);
+  }
+
+  .back-link::before {
+    content: '←';
+    font-size: 1.2rem;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  /* Help text styling */
+  .product-form .helptext {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    opacity: 0.7;
+    margin-top: 0.25rem;
+  }
+
+  /* Error styling */
+  .product-form .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+  }
+
+  .product-form .errorlist li {
+    background: #ff4444;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .add-product-container {
+      padding: 1rem;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .product-form {
+      padding: 1.5rem;
+    }
+
+    .btn-success {
+      font-size: 1rem;
+      padding: 0.875rem 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title {
+      font-size: 1.3rem;
+    }
+
+    .product-form {
+      padding: 1rem;
+    }
+
+    .product-form label {
+      font-size: 0.95rem;
+    }
+
+    .product-form input[type="text"],
+    .product-form input[type="number"],
+    .product-form textarea,
+    .product-form select {
+      font-size: 0.95rem;
+      padding: 0.625rem 0.875rem;
+    }
+  }
+</style>
+
+<div class="add-product-container">
+  <h2 class="page-title">Add New Product</h2>
+
+  <form method="post" enctype="multipart/form-data" class="product-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-success">Add Product</button>
+  </form>
+
+  <div class="form-actions">
+    <a href="{% url 'shop:seller_dashboard' %}" class="back-link">Back to Dashboard</a>
+  </div>
+</div>
+
+{% endblock %}

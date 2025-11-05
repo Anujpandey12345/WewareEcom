@@ -1,0 +1,205 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+<style>
+  .dashboard-container {
+    padding: 2rem 0;
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .dashboard-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--text-secondary);
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--shadow);
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 2rem 0 1.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .products-table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow);
+  }
+
+  .products-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-main);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .products-table th {
+    background: var(--accent);
+    color: var(--text-secondary);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .products-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--shadow-light);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+  }
+
+  .products-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .products-table tbody tr {
+    transition: all 0.2s ease;
+  }
+
+  .products-table tbody tr:hover {
+    background: rgba(128, 128, 128, 0.05);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+
+  .price-cell {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .dashboard-title {
+      font-size: 1.5rem;
+    }
+
+    .btn-primary {
+      width: 100%;
+      text-align: center;
+    }
+
+    .products-table {
+      font-size: 0.9rem;
+    }
+
+    .products-table th,
+    .products-table td {
+      padding: 0.75rem 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .dashboard-title {
+      font-size: 1.3rem;
+    }
+
+    .products-table {
+      font-size: 0.85rem;
+    }
+
+    .products-table th,
+    .products-table td {
+      padding: 0.5rem 0.3rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* Mobile table scroll indicator */
+  @media (max-width: 768px) {
+    .products-table-container::after {
+      content: '← Scroll →';
+      display: block;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      opacity: 0.5;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">Seller Dashboard</h2>
+    <a href="{% url 'shop:product_add' %}" class="btn btn-primary">+ Add Product</a>
+  </div>
+
+  <h3 class="section-title">Your Products</h3>
+  
+  <div class="products-table-container">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.name }}</td>
+          <td>{{ product.category }}</td>
+          <td class="price-cell">₹{{ product.price }}</td>
+          <td>{% if product.created_at %}{{ product.created_at|date:"Y-m-d" }}{% else %}-{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="empty-state">No products yet. Start by adding your first product!</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

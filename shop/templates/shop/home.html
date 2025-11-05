@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+  <h1>Welcome to the Shop</h1>
+
+  {% if user.is_authenticated %}
+    {% if user.is_seller %}
+      <p>
+        <a href="{% url 'shop:seller_dashboard' %}" class="btn btn-primary">
+          Go to Seller Dashboard
+        </a>
+      </p>
+    {% else %}
+      <p>
+        <a href="{% url 'shop:product_list' %}" class="btn btn-success">
+          Go to Buyer Section
+        </a>
+      </p>
+    {% endif %}
+  {% else %}
+    <p>
+      <a href="{% url 'shop:register_seller' %}" class="btn btn-outline-primary">
+        Register as Seller
+      </a> |
+      <a href="{% url 'shop:register_buyer' %}" class="btn btn-outline-success">
+        Register as Buyer
+      </a>
+    </p>
+  {% endif %}
+{% endblock %}
